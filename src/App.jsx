@@ -74,6 +74,8 @@ const QUICK_FACTS = [
   { icon: Shield, label: "Cita-Cita", value: "Polwan (Polisi Wanita)" },
 ];
 
+const PROFILE_PHOTO_URL = import.meta.env.VITE_PROFILE_PHOTO_URL || "https://lqvjphmbebbcdquovkap.supabase.co/storage/v1/object/public/product-images/products/1785846905009-WhatsApp-Image-2026-08-03-at-20.40.12.jpeg";
+
 const TIMELINE = [
   {
     step: "Kelas 7 SMP",
@@ -607,23 +609,21 @@ export default function App() {
                 style={{ border: `2px solid ${C.crimson}` }}
               />
               <div
-                className="w-56 h-56 sm:w-64 sm:h-64 rounded-full flex items-center justify-center relative"
+                className="w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden relative"
                 style={{
                   background: `linear-gradient(155deg, ${C.crimson} 0%, ${C.crimsonDeep} 100%)`,
                   boxShadow: "0 30px 60px -20px rgba(112,20,41,0.5)",
                 }}
               >
+                <img
+                  src={PROFILE_PHOTO_URL}
+                  alt="Foto profil Della Sugita"
+                  className="w-full h-full object-cover"
+                />
                 <div
-                  className="w-[85%] h-[85%] rounded-full flex flex-col items-center justify-center"
-                  style={{ background: C.surface, border: `4px solid ${C.peach}` }}
-                >
-                  <span className="font-display font-bold text-5xl sm:text-6xl" style={{ color: C.crimson }}>
-                    DS
-                  </span>
-                  <span className="text-[11px] font-semibold tracking-[0.2em] uppercase mt-1" style={{ color: C.inkFaint }}>
-                    No. 10
-                  </span>
-                </div>
+                  className="absolute inset-0 rounded-full"
+                  style={{ boxShadow: "inset 0 0 0 4px rgba(255,255,255,0.9)" }}
+                />
               </div>
               <div
                 className="absolute -bottom-2 -right-2 sm:right-0 w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"
