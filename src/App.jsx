@@ -348,63 +348,36 @@ export default function App() {
 
     setTaskError("");
 
-    const safeFileName = taskFile.name.replace(/\s+/g, "_");
-    const storagePath = `tasks/${Date.now()}_${safeFileName}`;
+    // Use server-side upload endpoint to avoid RLS/permission issues.
+    try {
+      const formData = new FormData();
+      formData.append("file", taskFile);
+      formData.append("nama", taskForm.nama.trim());
+      formData.append("kelas", taskForm.kelas.trim());
+      formData.append("judul", taskForm.judul.trim());
+      formData.append("catatan", taskForm.catatan.trim());
 
-    const { error: uploadError } = await supabase
-      .storage
-      .from(STORAGE_BUCKET)
-      .upload(storagePath, taskFile, { cacheControl: "3600", upsert: false });
+      const resp = await fetch("/api/upload", { method: "POST", body: formData });
+      const result = await resp.json();
 
-    if (uploadError) {
-      console.error("Supabase upload error:", uploadError);
+      if (!resp.ok) {
+        console.error("Upload endpoint error:", result);
+        setTaskError(result?.error || "Gagal mengunggah file tugas.");
+        return;
+      }
+
+      const inserted = result.inserted;
+      inserted.waktu = inserted.created_at ? new Date(inserted.created_at) : new Date();
+
+      setSubmissions((prev) => [inserted, ...prev]);
+      setTaskForm({ nama: "", kelas: "", judul: "", catatan: "" });
+      setTaskFile(null);
+      setJustSubmittedId(inserted.id);
+      setTimeout(() => setJustSubmittedId((cur) => (cur === inserted.id ? null : cur)), 2400);
+    } catch (e) {
+      console.error("Upload error:", e);
       setTaskError("Gagal mengunggah file tugas. Coba lagi nanti.");
-      return;
     }
-
-    const { data: urlData, error: urlError } = supabase
-      .storage
-      .from(STORAGE_BUCKET)
-      .getPublicUrl(storagePath);
-
-    if (urlError) {
-      console.error("Supabase public URL error:", urlError);
-      setTaskError("Gagal mengambil alamat file setelah upload.");
-      return;
-    }
-
-    const payload = {
-      nama: taskForm.nama.trim(),
-      kelas: taskForm.kelas.trim(),
-      judul: taskForm.judul.trim(),
-      file_path: storagePath,
-      file_name: taskFile.name,
-      file_url: urlData?.publicUrl || "",
-      catatan: taskForm.catatan.trim(),
-    };
-
-    const { data, error } = await supabase
-      .from("tugas")
-      .insert([payload])
-      .select("*")
-      .single();
-
-    if (error) {
-      console.error("Supabase insert error:", error);
-      setTaskError("Gagal menyimpan tugas ke Supabase. Coba lagi nanti.");
-      return;
-    }
-
-    const inserted = {
-      ...data,
-      waktu: data.created_at ? new Date(data.created_at) : new Date(),
-    };
-
-    setSubmissions((prev) => [inserted, ...prev]);
-    setTaskForm({ nama: "", kelas: "", judul: "", catatan: "" });
-    setTaskFile(null);
-    setJustSubmittedId(inserted.id);
-    setTimeout(() => setJustSubmittedId((cur) => (cur === inserted.id ? null : cur)), 2400);
   }, [isAdmin, taskFile, taskForm]);
 
   const handleTaskDelete = useCallback(async (id) => {
