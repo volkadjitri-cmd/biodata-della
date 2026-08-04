@@ -23,11 +23,29 @@ export default async function handler(req, res) {
     if (err) return res.status(500).json({ error: "Form parse error" });
 
     try {
-      const file = files.file;
-      if (!file) return res.status(400).json({ error: "No file provided" });
+      let file = files.file;
+      if (Array.isArray(file)) file = file[0];
+      if (!file) {
+        console.warn("Upload: no file field in parsed files", files);
+        return res.status(400).json({ error: "No file provided", files });
+      }
 
-      const buffer = fs.readFileSync(file.filepath || file.path);
-      const safeName = (file.originalFilename || file.name).replace(/\s+/g, "_");
+      const possiblePathProps = [
+        file.filepath,
+        file.path,
+        file.filePath,
+        file.tempFilePath,
+        file.tempfilepath,
+        file.tempFilepath,
+      ];
+      const tempPath = possiblePathProps.find(Boolean);
+      if (!tempPath) {
+        console.warn("Upload: uploaded file missing temp path", file);
+        return res.status(500).json({ error: "Uploaded file missing temp path", file });
+      }
+
+      const buffer = fs.readFileSync(tempPath);
+      const safeName = (file.originalFilename || file.originalname || file.name || file.newFilename || "upload").replace(/\s+/g, "_");
       const path = `tasks/${Date.now()}_${safeName}`;
 
       const { data: uploadData, error: uploadError } = await supabase.storage
