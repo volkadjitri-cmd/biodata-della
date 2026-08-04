@@ -18,6 +18,11 @@ const supabase = createClient(supabaseUrl, serviceKey);
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
 
+  if (!supabaseUrl || !serviceKey) {
+    console.error("Upload handler missing SUPABASE_SERVICE_KEY or VITE_SUPABASE_URL env vars");
+    return res.status(500).json({ error: "Server misconfigured: missing SUPABASE_SERVICE_KEY or VITE_SUPABASE_URL" });
+  }
+
   const form = new IncomingForm();
   form.parse(req, async (err, fields, files) => {
     if (err) return res.status(500).json({ error: "Form parse error" });
