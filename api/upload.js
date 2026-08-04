@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       if (Array.isArray(file)) file = file[0];
       if (!file) {
         console.warn("Upload: no file field in parsed files", files);
-        return res.status(400).json({ error: "No file provided", files });
+        return res.status(400).json({ error: "No file provided" });
       }
 
       const possiblePathProps = [
@@ -41,7 +41,12 @@ export default async function handler(req, res) {
       const tempPath = possiblePathProps.find(Boolean);
       if (!tempPath) {
         console.warn("Upload: uploaded file missing temp path", file);
-        return res.status(500).json({ error: "Uploaded file missing temp path", file });
+        const debug = {
+          filename: file.originalFilename || file.originalname || file.name || null,
+          size: file.size || null,
+          possiblePathProps: possiblePathProps.map((p) => (p ? String(p) : null)),
+        };
+        return res.status(500).json({ error: "Uploaded file missing temp path", debug });
       }
 
       const buffer = fs.readFileSync(tempPath);
@@ -53,7 +58,9 @@ export default async function handler(req, res) {
         .upload(path, buffer, { cacheControl: "3600", upsert: false });
 
       if (uploadError) {
-        return res.status(500).json({ error: uploadError.message || uploadError });
+        console.error("Supabase storage upload error:", uploadError);
+        const msg = uploadError?.message || JSON.stringify(uploadError) || String(uploadError);
+        return res.status(500).json({ error: `Storage upload failed: ${msg}` });
       }
 
       const { data: urlData } = supabase.storage.from(bucket).getPublicUrl(path);
@@ -72,10 +79,15 @@ export default async function handler(req, res) {
 
       const { data: inserted, error: insertError } = await supabase.from("tugas").insert([payload]).select("*").single();
 
-      if (insertError) return res.status(500).json({ error: insertError.message || insertError });
+      if (insertError) {
+        console.error("Supabase insert error:", insertError);
+        const msg = insertError?.message || JSON.stringify(insertError) || String(insertError);
+        return res.status(500).json({ error: `DB insert failed: ${msg}` });
+      }
 
       return res.json({ success: true, inserted });
     } catch (e) {
+      console.error("Upload handler exception:", e);
       return res.status(500).json({ error: e.message || String(e) });
     }
   });
