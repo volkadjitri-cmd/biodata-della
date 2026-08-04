@@ -39,19 +39,19 @@ const STORAGE_BUCKET = import.meta.env.VITE_SUPABASE_BUCKET || "tugas-files";
    Type: Fraunces (display, editorial-athletic) + Inter (body/UI)
    ============================================================ */
 const C = {
-  bg: "#FFF9F7",
-  bgAlt: "#FDF2ED",
+  bg: "#F5F9FF",
+  bgAlt: "#E8F0FF",
   surface: "#FFFFFF",
-  crimson: "#A81F3D",
-  crimsonDeep: "#701429",
-  crimsonSoft: "#C43A57",
-  peach: "#F6C9AC",
-  peachSoft: "#FBE3D2",
-  ink: "#2B1620",
-  inkSoft: "#6E4E57",
-  inkFaint: "#9C7F86",
-  gold: "#C0923F",
-  line: "#EFDCD2",
+  primary: "#1F5DB0",
+  primaryDeep: "#164A8A",
+  primarySoft: "#5B8AE1",
+  accent: "#A6C8FF",
+  accentSoft: "#D9E8FF",
+  ink: "#102A45",
+  inkSoft: "#4B637E",
+  inkFaint: "#7D95A8",
+  gold: "#5F8CCF",
+  line: "#D7E3F4",
 };
 
 /* ============================================================
@@ -189,7 +189,7 @@ function Eyebrow({ children }) {
   return (
     <div
       className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 text-xs font-semibold tracking-[0.16em] uppercase"
-      style={{ background: C.peachSoft, color: C.crimsonDeep }}
+      style={{ background: C.accentSoft, color: C.primaryDeep }}
     >
       <Sparkles size={13} strokeWidth={2.5} />
       {children}
@@ -214,18 +214,18 @@ function CourtDiagram({ activeKey }) {
 
       {/* Flank marker */}
       <g style={{ transition: "opacity 300ms ease" }} opacity={activeKey === "flank" ? 1 : 0.35}>
-        <circle cx={flank.x} cy={flank.y} r={activeKey === "flank" ? 5.5 : 4} fill={C.crimson} />
-        <circle cx={flank.x} cy={flank.y} r={activeKey === "flank" ? 9 : 0} fill={C.crimson} opacity="0.18" />
-        <text x={flank.x} y={flank.y - 9} textAnchor="middle" fontSize="5.2" fontWeight="700" fill={C.crimsonDeep}>
+        <circle cx={flank.x} cy={flank.y} r={activeKey === "flank" ? 5.5 : 4} fill={C.primary} />
+        <circle cx={flank.x} cy={flank.y} r={activeKey === "flank" ? 9 : 0} fill={C.primary} opacity="0.18" />
+        <text x={flank.x} y={flank.y - 9} textAnchor="middle" fontSize="5.2" fontWeight="700" fill={C.primaryDeep}>
           FLANK
         </text>
       </g>
 
       {/* Pivot marker */}
       <g style={{ transition: "opacity 300ms ease" }} opacity={activeKey === "pivot" ? 1 : 0.35}>
-        <circle cx={pivot.x} cy={pivot.y} r={activeKey === "pivot" ? 5.5 : 4} fill={C.crimson} />
-        <circle cx={pivot.x} cy={pivot.y} r={activeKey === "pivot" ? 9 : 0} fill={C.crimson} opacity="0.18" />
-        <text x={pivot.x} y={pivot.y + 11} textAnchor="middle" fontSize="5.2" fontWeight="700" fill={C.crimsonDeep}>
+        <circle cx={pivot.x} cy={pivot.y} r={activeKey === "pivot" ? 5.5 : 4} fill={C.primary} />
+        <circle cx={pivot.x} cy={pivot.y} r={activeKey === "pivot" ? 9 : 0} fill={C.primary} opacity="0.18" />
+        <text x={pivot.x} y={pivot.y + 11} textAnchor="middle" fontSize="5.2" fontWeight="700" fill={C.primaryDeep}>
           PIVOT
         </text>
       </g>
@@ -425,13 +425,13 @@ export default function App() {
         .nav-link { position: relative; }
         .nav-link::after {
           content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px;
-          background: ${C.crimson}; transform: scaleX(0); transform-origin: left; transition: transform 260ms ease;
+          background: ${C.primary}; transform: scaleX(0); transform-origin: left; transition: transform 260ms ease;
         }
         .nav-link.active::after { transform: scaleX(1); }
         .btn-primary { transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease; }
         .btn-primary:hover { transform: translateY(-2px); }
         .fact-row { transition: background 200ms ease; }
-        .fact-row:hover { background: ${C.peachSoft}; }
+        .fact-row:hover { background: ${C.accentSoft}; }
         .value-card { transition: transform 220ms ease, box-shadow 220ms ease; }
         .value-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -20px rgba(112,20,41,0.35); }
         .contact-btn { transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease; }
@@ -441,8 +441,8 @@ export default function App() {
           transition: border-color 200ms ease, box-shadow 200ms ease;
         }
         input[type="text"]:focus, input[type="url"]:focus, textarea:focus {
-          border-color: ${C.crimson} !important;
-          box-shadow: 0 0 0 3px rgba(168,31,61,0.12);
+          border-color: ${C.primary} !important;
+          box-shadow: 0 0 0 3px rgba(31,93,176,0.12);
         }
         @keyframes floatSlow { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
         .float-slow { animation: floatSlow 5s ease-in-out infinite; }
@@ -462,7 +462,7 @@ export default function App() {
           >
             <span
               className="w-9 h-9 rounded-xl flex items-center justify-center font-display font-bold text-sm"
-              style={{ background: C.crimson, color: "#fff" }}
+              style={{ background: C.primary, color: "#fff" }}
             >
               DS
             </span>
@@ -477,7 +477,7 @@ export default function App() {
                 key={link.id}
                 onClick={() => handleNavClick(link.id)}
                 className={`nav-link text-sm font-medium ${activeSection === link.id ? "active" : ""}`}
-                style={{ color: activeSection === link.id ? C.crimsonDeep : C.inkSoft }}
+                style={{ color: activeSection === link.id ? C.primaryDeep : C.inkSoft }}
               >
                 {link.label}
               </button>
@@ -485,7 +485,7 @@ export default function App() {
             <button
               onClick={() => handleNavClick("kontak")}
               className="btn-primary text-sm font-semibold px-5 py-2.5 rounded-full"
-              style={{ background: C.crimson, color: "#fff", boxShadow: "0 10px 24px -12px rgba(168,31,61,0.6)" }}
+              style={{ background: C.primary, color: "#fff", boxShadow: "0 10px 24px -12px rgba(31,93,176,0.6)" }}
             >
               Hubungi Saya
             </button>
@@ -493,11 +493,11 @@ export default function App() {
 
           <button
             className="md:hidden w-10 h-10 flex items-center justify-center rounded-full"
-            style={{ background: C.peachSoft }}
+            style={{ background: C.accentSoft }}
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Buka menu navigasi"
           >
-            {menuOpen ? <X size={18} color={C.crimsonDeep} /> : <Menu size={18} color={C.crimsonDeep} />}
+            {menuOpen ? <X size={18} color={C.primaryDeep} /> : <Menu size={18} color={C.primaryDeep} />}
           </button>
         </div>
 
@@ -516,7 +516,7 @@ export default function App() {
             <button
               onClick={() => handleNavClick("kontak")}
               className="mt-3 text-sm font-semibold px-5 py-3 rounded-full text-center"
-              style={{ background: C.crimson, color: "#fff" }}
+              style={{ background: C.primary, color: "#fff" }}
             >
               Hubungi Saya
             </button>
@@ -528,13 +528,13 @@ export default function App() {
       <section id="hero" className="relative overflow-hidden">
         <div
           className="absolute inset-0 -z-10"
-          style={{ background: `radial-gradient(120% 90% at 85% 0%, ${C.peachSoft} 0%, ${C.bg} 55%)` }}
+          style={{ background: `radial-gradient(120% 90% at 85% 0%, ${C.accentSoft} 0%, ${C.bg} 55%)` }}
         />
         <div className="max-w-6xl mx-auto px-5 sm:px-8 pt-14 pb-20 md:pt-20 md:pb-28 grid md:grid-cols-[1.15fr_0.85fr] gap-14 items-center">
           <div>
             <div
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 text-xs font-semibold tracking-[0.14em] uppercase"
-              style={{ background: "#fff", color: C.crimsonDeep, border: `1px solid ${C.line}` }}
+              style={{ background: "#fff", color: C.primaryDeep, border: `1px solid ${C.line}` }}
             >
               <Star size={13} strokeWidth={2.5} />
               Pelajar · Atlet · Calon Polwan
@@ -542,7 +542,7 @@ export default function App() {
 
             <h1 className="font-display font-semibold leading-[1.05] text-[2.6rem] sm:text-[3.2rem] md:text-[3.6rem] tracking-tight mb-6">
               <span style={{ color: C.ink }}>Della</span>{" "}
-              <span style={{ color: C.crimson }}>Sugita</span>
+              <span style={{ color: C.primary }}>Sugita</span>
             </h1>
 
             <p className="text-base sm:text-lg leading-relaxed max-w-xl mb-8" style={{ color: C.inkSoft }}>
@@ -555,8 +555,8 @@ export default function App() {
               className="rounded-3xl p-5 sm:p-6 mb-8 relative"
               style={{ background: C.surface, border: `1px solid ${C.line}` }}
             >
-              <Quote size={22} style={{ color: C.peach }} className="absolute -top-3 left-5" />
-              <p className="font-display italic text-[17px] sm:text-lg leading-relaxed" style={{ color: C.crimsonDeep }}>
+              <Quote size={22} style={{ color: C.accent }} className="absolute -top-3 left-5" />
+              <p className="font-display italic text-[17px] sm:text-lg leading-relaxed" style={{ color: C.primaryDeep }}>
                 "Tidak ada hidup tanpa masalah, dan tidak ada usaha tanpa rasa lelah.
                 Tetap semangat dari Bismillah sampai Alhamdulillah."
               </p>
@@ -565,19 +565,19 @@ export default function App() {
             <div className="flex flex-wrap gap-3 mb-9">
               <span
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
-                style={{ background: C.peachSoft, color: C.crimsonDeep }}
+                style={{ background: C.accentSoft, color: C.primaryDeep }}
               >
                 <GraduationCap size={14} /> Pelajar SMAN 12 Jakarta
               </span>
               <span
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
-                style={{ background: C.peachSoft, color: C.crimsonDeep }}
+                style={{ background: C.accentSoft, color: C.primaryDeep }}
               >
                 <Shield size={14} /> Calon Polwan
               </span>
               <span
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
-                style={{ background: C.peachSoft, color: C.crimsonDeep }}
+                style={{ background: C.accentSoft, color: C.primaryDeep }}
               >
                 <Activity size={14} /> Pemain Futsal
               </span>
@@ -587,14 +587,14 @@ export default function App() {
               <button
                 onClick={() => handleNavClick("perjuangan")}
                 className="btn-primary inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-sm"
-                style={{ background: C.crimson, color: "#fff", boxShadow: "0 14px 30px -14px rgba(168,31,61,0.65)" }}
+                style={{ background: C.primary, color: "#fff", boxShadow: "0 14px 30px -14px rgba(31,93,176,0.65)" }}
               >
                 Baca Kisah Perjuangan <ChevronRight size={16} />
               </button>
               <button
                 onClick={() => handleNavClick("kontak")}
                 className="btn-primary inline-flex items-center gap-2 px-6 py-3.5 rounded-full font-semibold text-sm"
-                style={{ background: "#fff", color: C.crimsonDeep, border: `1px solid ${C.line}` }}
+                style={{ background: "#fff", color: C.primaryDeep, border: `1px solid ${C.line}` }}
               >
                 Hubungi Saya <ArrowUpRight size={16} />
               </button>
@@ -606,12 +606,12 @@ export default function App() {
             <div className="relative float-slow">
               <div
                 className="absolute inset-0 rounded-full pulse-ring"
-                style={{ border: `2px solid ${C.crimson}` }}
+                style={{ border: `2px solid ${C.primary}` }}
               />
               <div
                 className="w-56 h-56 sm:w-64 sm:h-64 rounded-full overflow-hidden relative"
                 style={{
-                  background: `linear-gradient(155deg, ${C.crimson} 0%, ${C.crimsonDeep} 100%)`,
+                  background: `linear-gradient(155deg, ${C.primary} 0%, ${C.primaryDeep} 100%)`,
                   boxShadow: "0 30px 60px -20px rgba(112,20,41,0.5)",
                 }}
               >
@@ -627,7 +627,7 @@ export default function App() {
               </div>
               <div
                 className="absolute -bottom-2 -right-2 sm:right-0 w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"
-                style={{ background: C.gold }}
+                style={{ background: C.primaryDeep }}
               >
                 <Shield size={24} color="#fff" />
               </div>
@@ -635,7 +635,7 @@ export default function App() {
                 className="absolute -top-3 -left-4 px-3 py-2 rounded-2xl shadow-lg flex items-center gap-1.5"
                 style={{ background: "#fff", border: `1px solid ${C.line}` }}
               >
-                <Flame size={14} color={C.crimson} />
+                <Flame size={14} color={C.primary} />
                 <span className="text-xs font-bold" style={{ color: C.ink }}>Disiplin & Tangguh</span>
               </div>
             </div>
@@ -680,7 +680,7 @@ export default function App() {
                 >
                   <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: C.peachSoft, color: C.crimsonDeep }}
+                    style={{ background: C.accentSoft, color: C.primaryDeep }}
                   >
                     <Icon size={17} />
                   </div>
@@ -717,7 +717,7 @@ export default function App() {
                   <div className="flex flex-col items-center">
                     <div
                       className="w-11 h-11 rounded-full flex items-center justify-center font-display font-bold text-sm shrink-0"
-                      style={{ background: C.crimson, color: "#fff" }}
+                      style={{ background: C.primary, color: "#fff" }}
                     >
                       {i + 1}
                     </div>
@@ -726,7 +726,7 @@ export default function App() {
                     )}
                   </div>
                   <div className="pb-9">
-                    <p className="text-[11px] font-bold tracking-[0.14em] uppercase mb-1" style={{ color: C.gold }}>
+                    <p className="text-[11px] font-bold tracking-[0.14em] uppercase mb-1" style={{ color: C.primaryDeep }}>
                       {item.step}
                     </p>
                     <p className="font-display font-semibold text-lg mb-1.5" style={{ color: C.ink }}>
@@ -744,7 +744,7 @@ export default function App() {
             <div
               data-reveal
               className="rounded-3xl p-8 sm:p-10 relative overflow-hidden flex flex-col justify-between"
-              style={{ background: `linear-gradient(160deg, ${C.crimsonDeep} 0%, ${C.crimson} 100%)`, color: "#fff" }}
+              style={{ background: `linear-gradient(160deg, ${C.primaryDeep} 0%, ${C.primary} 100%)`, color: "#fff" }}
             >
               <div
                 className="absolute -right-10 -top-10 w-44 h-44 rounded-full"
@@ -754,7 +754,7 @@ export default function App() {
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-6 text-xs font-semibold" style={{ background: "rgba(255,255,255,0.14)" }}>
                   <Award size={13} /> Momen Panggilan Garuda
                 </div>
-                <p className="font-display italic text-lg sm:text-xl leading-relaxed mb-6" style={{ color: C.peachSoft }}>
+                <p className="font-display italic text-lg sm:text-xl leading-relaxed mb-6" style={{ color: C.accentSoft }}>
                   "Sejak kelas 7 SMP hingga duduk di kelas 12 SMA, saya secara konsisten
                   mengasah kemampuan di lapangan futsal hingga tumbuh menjadi pemain
                   istimewa yang serba bisa — baik sebagai flank yang lincah membongkar
@@ -789,18 +789,18 @@ export default function App() {
         <div
           data-reveal
           className="rounded-3xl p-8 sm:p-14 text-center mb-14 relative overflow-hidden"
-          style={{ background: `linear-gradient(160deg, ${C.crimsonDeep} 0%, ${C.crimson} 100%)` }}
+          style={{ background: `linear-gradient(160deg, ${C.primaryDeep} 0%, ${C.primary} 100%)` }}
         >
           <div
             className="absolute -left-16 -bottom-16 w-56 h-56 rounded-full"
             style={{ background: "rgba(255,255,255,0.05)" }}
           />
-          <Quote size={30} color={C.peach} className="mx-auto mb-6 relative" />
+          <Quote size={30} color={C.accent} className="mx-auto mb-6 relative" />
           <p className="font-display italic text-2xl sm:text-3xl leading-snug max-w-2xl mx-auto relative" style={{ color: "#fff" }}>
             "Tidak ada hidup tanpa masalah, dan tidak ada usaha tanpa rasa lelah. Tetap
             semangat dari Bismillah sampai Alhamdulillah."
           </p>
-          <p className="mt-6 text-xs font-semibold tracking-[0.18em] uppercase relative" style={{ color: C.peachSoft }}>
+          <p className="mt-6 text-xs font-semibold tracking-[0.18em] uppercase relative" style={{ color: C.accentSoft }}>
             — Della Sugita
           </p>
         </div>
@@ -817,9 +817,9 @@ export default function App() {
               >
                 <div
                   className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5"
-                  style={{ background: C.peachSoft }}
+                  style={{ background: C.accentSoft }}
                 >
-                  <Icon size={20} color={C.crimsonDeep} />
+                  <Icon size={20} color={C.primaryDeep} />
                 </div>
                 <p className="font-display font-semibold text-xl mb-2.5" style={{ color: C.ink }}>
                   {g.title}
@@ -863,9 +863,9 @@ export default function App() {
                     onClick={() => setSelectedRole(key)}
                     className="role-card flex-1 rounded-2xl px-5 py-4 text-left"
                     style={{
-                      background: selectedRole === key ? C.crimson : C.surface,
-                      border: `1.5px solid ${selectedRole === key ? C.crimson : C.line}`,
-                      boxShadow: selectedRole === key ? "0 16px 30px -16px rgba(168,31,61,0.55)" : "none",
+                      background: selectedRole === key ? C.primary : C.surface,
+                      border: `1.5px solid ${selectedRole === key ? C.primary : C.line}`,
+                      boxShadow: selectedRole === key ? "0 16px 30px -16px rgba(31,93,176,0.55)" : "none",
                     }}
                   >
                     <span
@@ -893,7 +893,7 @@ export default function App() {
                     <span
                       key={trait}
                       className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold"
-                      style={{ background: C.peachSoft, color: C.crimsonDeep }}
+                      style={{ background: C.accentSoft, color: C.primaryDeep }}
                     >
                       <Target size={12} /> {trait}
                     </span>
@@ -916,7 +916,7 @@ export default function App() {
                 >
                   <div
                     className="w-11 h-11 rounded-2xl flex items-center justify-center mb-4"
-                    style={{ background: C.crimson }}
+                    style={{ background: C.primary }}
                   >
                     <Icon size={18} color="#fff" />
                   </div>
@@ -976,7 +976,7 @@ export default function App() {
                 </div>
 
                 {adminError && (
-                  <p className="text-xs font-semibold mb-4" style={{ color: C.crimson }}>
+                  <p className="text-xs font-semibold mb-4" style={{ color: C.primary }}>
                     {adminError}
                   </p>
                 )}
@@ -984,7 +984,7 @@ export default function App() {
                 <button
                   onClick={handleAdminLogin}
                   className="btn-primary w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-semibold text-sm"
-                  style={{ background: C.crimson, color: "#fff", boxShadow: "0 14px 30px -14px rgba(168,31,61,0.65)" }}
+                  style={{ background: C.primary, color: "#fff", boxShadow: "0 14px 30px -14px rgba(31,93,176,0.65)" }}
                 >
                   Masuk Admin
                 </button>
@@ -998,7 +998,7 @@ export default function App() {
                   <button
                     onClick={handleAdminLogout}
                     className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full text-xs font-semibold"
-                    style={{ background: C.bgAlt, color: C.crimson, border: `1px solid ${C.line}` }}
+                    style={{ background: C.bgAlt, color: C.primary, border: `1px solid ${C.line}` }}
                   >
                     Keluar Admin
                   </button>
@@ -1080,7 +1080,7 @@ export default function App() {
                 </div>
 
                 {taskError && (
-                  <p className="text-xs font-semibold mb-4" style={{ color: C.crimson }}>
+                  <p className="text-xs font-semibold mb-4" style={{ color: C.primary }}>
                     {taskError}
                   </p>
                 )}
@@ -1088,7 +1088,7 @@ export default function App() {
                 <button
                   onClick={handleTaskSubmit}
                   className="btn-primary w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-semibold text-sm"
-                  style={{ background: C.crimson, color: "#fff", boxShadow: "0 14px 30px -14px rgba(168,31,61,0.65)" }}
+                  style={{ background: C.primary, color: "#fff", boxShadow: "0 14px 30px -14px rgba(31,93,176,0.65)" }}
                 >
                   <Send size={16} /> Unggah Tugas
                 </button>
@@ -1099,7 +1099,7 @@ export default function App() {
           {/* Submitted list */}
           <div data-reveal>
             <div className="flex items-center gap-2 mb-5">
-              <ClipboardList size={16} color={C.crimsonDeep} />
+              <ClipboardList size={16} color={C.primaryDeep} />
               <p className="text-sm font-semibold" style={{ color: C.ink }}>
                 Tugas Terkumpul ({submissions.length})
               </p>
@@ -1123,8 +1123,8 @@ export default function App() {
                     className="rounded-2xl p-5 relative"
                     style={{
                       background: C.surface,
-                      border: `1px solid ${justSubmittedId === s.id ? C.crimson : C.line}`,
-                      boxShadow: justSubmittedId === s.id ? "0 14px 30px -18px rgba(168,31,61,0.5)" : "none",
+                      border: `1px solid ${justSubmittedId === s.id ? C.primary : C.line}`,
+                      boxShadow: justSubmittedId === s.id ? "0 14px 30px -18px rgba(31,93,176,0.5)" : "none",
                       transition: "border-color 300ms ease, box-shadow 300ms ease",
                     }}
                   >
@@ -1140,10 +1140,10 @@ export default function App() {
                       <button
                         onClick={() => handleTaskDelete(s.id)}
                         className="shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
-                        style={{ background: C.peachSoft }}
+                        style={{ background: C.accentSoft }}
                         aria-label="Hapus tugas"
                       >
-                        <Trash2 size={14} color={C.crimsonDeep} />
+                        <Trash2 size={14} color={C.primaryDeep} />
                       </button>
                     </div>
 
@@ -1170,7 +1170,7 @@ export default function App() {
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1.5 text-xs font-semibold"
-                              style={{ color: C.crimsonDeep }}
+                              style={{ color: C.primaryDeep }}
                             >
                               <Paperclip size={12} /> {s.file_name || "Lihat file"}
                             </a>
@@ -1181,7 +1181,7 @@ export default function App() {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-1.5 text-xs font-semibold"
-                            style={{ color: C.crimsonDeep }}
+                            style={{ color: C.primaryDeep }}
                           >
                             <Paperclip size={12} /> {s.file_name || "Lihat file"}
                           </a>
@@ -1210,13 +1210,13 @@ export default function App() {
       </section>
 
       {/* ============================ KONTAK / FOOTER ============================ */}
-      <footer id="kontak" className="py-20 md:py-28" style={{ background: C.crimsonDeep }}>
+      <footer id="kontak" className="py-20 md:py-28" style={{ background: C.primaryDeep }}>
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="grid md:grid-cols-[1fr_1fr] gap-14 items-start">
             <div data-reveal>
               <div
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 text-xs font-semibold tracking-[0.14em] uppercase"
-                style={{ background: "rgba(255,255,255,0.1)", color: C.peachSoft }}
+                style={{ background: "rgba(255,255,255,0.1)", color: C.accentSoft }}
               >
                 <Sparkles size={13} /> Let's Connect
               </div>
@@ -1247,7 +1247,7 @@ export default function App() {
                         className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                         style={{ background: "rgba(255,255,255,0.1)" }}
                       >
-                        <Icon size={16} color={C.peachSoft} />
+                        <Icon size={16} color={C.primaryDeep} />
                       </span>
                       <span className="min-w-0">
                         <span className="block text-[11px] font-semibold tracking-[0.1em] uppercase" style={{ color: "rgba(255,255,255,0.5)" }}>
@@ -1278,7 +1278,7 @@ export default function App() {
             <div className="flex items-center gap-3">
               <span
                 className="w-8 h-8 rounded-lg flex items-center justify-center font-display font-bold text-xs"
-                style={{ background: "#fff", color: C.crimson }}
+                style={{ background: "#fff", color: C.primary }}
               >
                 DS
               </span>
